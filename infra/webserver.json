@@ -1,0 +1,25 @@
+{
+  "builders" : [ {
+    "monitoring" : true,
+    "type" : "digitalocean",
+    "size" : "s-1vcpu-1gb",
+    "region" : "nyc1",
+    "ssh_username" : "root",
+    "image" : "ubuntu-20-04-x64",
+    "api_token" : "{{user `digitalocean_api_key`}}",
+    "private_networking" : true,
+    "snapshot_name" : "biff-webserver"
+  } ],
+  "provisioners" : [ {
+    "type" : "file",
+    "source" : "./provisioners",
+    "destination" : "/tmp/"
+  }, {
+    "type" : "shell",
+    "script" : "run-provisioners.sh"
+  } ],
+  "variables" : {
+    "digitalocean_api_key" : "{{env `DIGITALOCEAN_API_KEY`}}"
+  },
+  "sensitive-variables" : [ "digitalocean_api_key" ]
+}
