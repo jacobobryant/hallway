@@ -1,63 +1,51 @@
 (ns hallway.static)
 
-; See https://findka.com/biff/#static-resources-2
-; and https://github.com/tonsky/rum
+(def simple-analytics
+  (list
+    [:script
+     {:src "https://sa.findka.com/latest.js",
+      :defer "defer",
+      :async "async"}]
+    [:noscript [:img {:alt "", :src "https://sa.findka.com/noscript.gif"}]]))
 
-(defn base-page [{:keys [scripts] :as opts} & contents]
+(defn base-page [& contents]
   [:html
    [:head
     [:meta {:charset "utf-8"}]
     [:link {:rel "stylesheet" :href "/css/main.css"}]]
-   [:body
-    [:.p-3.mx-auto.max-w-screen-sm
-     contents]
-    (for [url scripts]
-      [:script {:src url}])]])
+   [:body contents simple-analytics]])
 
-(def signin-form
-  (list
-    [:.text-lg "Email address:"]
-    [:.h-3]
-    [:form.mb-0 {:action "/api/signin-request" :method "post"}
-     [:.flex
-      [:input.border.border-gray-500.rounded.p-2
-       {:name "email" :type "email" :placeholder "Email"
-        :value "abc@example.com"}]
-      [:.w-3]
-      ; Same as [:button.px-4.py-2.rounded.bg-blue-500.text-white.hover:bg-blue-700 ...]
-      ; See tailwind.css
-      [:button.btn {:type "submit"} "Sign in"]]]
-    [:.h-1]
-    [:.text-sm "Doesn't need to be a real address."]))
+(def footer
+  [:div
+   [:a.link {:href "https://essays.findka.com" :target "_blank"}
+    "Findka"]
+   " | "
+   [:a.link {:href "https://github.com/jacobobryant/hallway"
+             :target "_blank"}
+    "Github"]])
 
 (def home
-  (base-page {:scripts ["/js/ensure-signed-out.js"]}
-    signin-form))
-
-(def signin-sent
   (base-page {}
-    [:p "Sign-in link sent, please check your inbox."]
-    [:p.text-sm "(Just kidding: click on the sign-in link that was printed to the terminal.)"]))
-
-(def signin-fail
-  (base-page {}
-    [:p "Invalid sign-in token."]
-    signin-form))
+    [:.p-3.mx-auto.max-w-screen-md
+     [:.text-lg "Enter a URL:"]
+     [:.h-3]
+     [:form {:method "GET"
+             :action "/view"}
+      [:input#url.border.border-gray-500.rounded.p-2.w-full
+       {:name "url" :type "url" :placeholder "https://example.com"}]
+      [:.h-3]
+      [:button.btn {:type "submit"} "View discussions"]]
+     [:hr.mt-8.mb-2.border-gray-400]
+     footer]))
 
 (def not-found
   (base-page {}
     [:p "Not found."]))
 
-; Biff adds index.html to paths that end in /.
 (def pages
   {"/" home
-   ; Same as "/signin-sent/index.html" signin-sent
-   "/signin-sent/" signin-sent
-   "/signin-fail/" signin-fail
    "/404.html" not-found})
 
-; To update static files during development, delete the #_ and then eval this
-; namespace. (Don't forget to put the #_ back when you're done).
 #_(do
     (biff.components/write-static-resources
       (assoc @biff.core/system :biff/static-pages pages))

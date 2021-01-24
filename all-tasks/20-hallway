@@ -1,5 +1,13 @@
 # Put custom tasks in this file.
 
-foo () {
-  echo running task foo.
+init () {
+  if [ -f package.json ]; then
+    npm install
+  else
+    npm init -y
+    npm install --save-dev tailwindcss-cli onchange clean-css-cli
+  fi
+  pip3 install --user --upgrade git+https://github.com/jacobobryant/twint.git@origin/master#egg=twint
+  echo
+  echo Initialization complete.
 }
