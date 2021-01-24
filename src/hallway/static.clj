@@ -26,7 +26,7 @@
     "Github"]])
 
 (def home
-  (base-page {}
+  (base-page
     [:.p-3.mx-auto.max-w-screen-md
      [:.text-lg "Enter a URL:"]
      [:.h-3]

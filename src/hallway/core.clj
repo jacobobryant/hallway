@@ -1,5 +1,6 @@
 (ns hallway.core
   (:require
+    [biff.components :as c]
     [biff.core :as biff]
     [biff.project :as project]
     [hallway.routes :refer [routes]]
@@ -10,15 +11,13 @@
               #:biff{:first-start first-start
                      :routes routes
                      :static-pages pages
-                     :rules #'rules
-                     ;:jobs jobs
-                     :send-email #'send-email
                      :after-refresh `after-refresh}
               [#(merge {:biff.init/start-nrepl true
                         :biff.init/start-shadow false} %)
                c/init
                c/set-defaults
                #(dissoc % :biff.http/spa-path)
+               c/start-crux
                c/set-http-handler
                c/start-web-server
                c/write-static-resources
