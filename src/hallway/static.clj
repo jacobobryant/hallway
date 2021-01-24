@@ -37,7 +37,14 @@
        {:name "url" :type "url" :placeholder "https://example.com"}]
       [:.h-3]
       [:button.btn {:type "submit"} "View discussions"]]
-     [:hr.mt-8.mb-2.border-gray-400]
+     [:.h-8]
+     [:div "Bookmarklet: "
+      [:a.link
+       {:href "javascript:window.location=%22https://discuss.findka.com/view?url=%22+encodeURIComponent(document.location)"}
+       "view discussions"]]
+     [:.text-sm "Drag this link to your bookmarks menu. Use it to view discussions for the current page."]
+     [:.h-11]
+     [:hr.mb-2.border-gray-400]
      footer]))
 
 (def not-found
