@@ -12,6 +12,7 @@
   [:html
    [:head
     [:meta {:charset "utf-8"}]
+    [:title "Hallway"]
     [:link {:rel "stylesheet" :href "/css/main.css"}]]
    [:body contents simple-analytics]])
 
