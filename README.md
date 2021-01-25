@@ -24,7 +24,7 @@ Biff's features are necessary for this simple app (so far).
 
 ## Contributing
 
-Please do. Contact me and I'll help you get started.
+Please do. Contact me and I'll help you get started. (Short version: run `./task dev` to run it locally).
 
 ## License
 
