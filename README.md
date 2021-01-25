@@ -24,7 +24,7 @@ Biff's features are necessary for this simple app (so far).
 
 ## Contributing
 
-Please do.
+Please do. Contact me and I'll help you get started.
 
 ## License
 
