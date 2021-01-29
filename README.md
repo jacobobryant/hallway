@@ -24,7 +24,9 @@ Biff's features are necessary for this simple app (so far).
 
 ## Contributing
 
-Please do. Contact me and I'll help you get started. (Short version: run `./task dev` to run it locally).
+Please do. See the [Requirements
+section](https://findka.com/biff/#getting-started) in the Biff docs, then run
+`./task dev`. I'm also happy to help you get started.
 
 ## License
 
