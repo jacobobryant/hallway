@@ -23,9 +23,8 @@
      [:title (str "Discussions for " url)]
      [:link {:href self :rel "self"}]
      [:id self]
-     [:updated (u/format-date (:created (last sorted-docs)))]
-     [:author
-      [:name "Findka"]]
+     [:author [:name "Findka"]]
+     (when (not (empty? docs)) [:updated (u/format-date (:created (last sorted-docs)))])
 
      (map entry sorted-docs)
      ]))
