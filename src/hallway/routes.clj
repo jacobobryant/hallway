@@ -2,6 +2,7 @@
   (:require
     [biff.util :as bu]
     [hallway.api :as api]
+    [hallway.rss :as rss]
     [hallway.static :as static]
     [hallway.util :as u]
     [lambdaisland.uri :as uri]
@@ -33,7 +34,11 @@
      " | "
      [:a.link {:href (str "https://twitter.com/intent/tweet?text="
                        (uri/query-encode (str url " @FindkaEssays")))}
-      "Twitter"]]))
+      "Twitter"]]
+    [:div
+     [:a.link {:href (str "http://localhost:8080/rss?url="
+                       (uri/query-encode url))}
+      "Discussion RSS Feed"]]))
 
 (defn discussion
   [{:keys [url title n-comments created points author]}]
@@ -86,10 +91,21 @@
        [:hr.mt-8.mb-2.border-gray-400]
        footer])))
 
+(defn rss-discussions-body [url docs]
+  (str rss/xml-doc
+       (rum/render-static-markup
+         (rss/feed url docs))))
+
 (defn view-discussions [{:keys [params/url]}]
   {:status 200
    :headers/Content-Type "text/html"
    :body (discussions-body url (api/search-all url))})
 
+(defn rss-discussions [{:keys [params/url]}]
+  {:status 200
+   :headers/Content-Type "application/atom+xml"
+   :body (rss-discussions-body url (api/search-all url))})
+
 (def routes
-  [["/view" {:get #(view-discussions %)}]])
+  [["/view" {:get #(view-discussions %)}]
+   ["/rss" {:get #(rss-discussions %)}]])
