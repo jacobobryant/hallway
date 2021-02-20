@@ -2,7 +2,7 @@
   (:require
     [biff.util :as bu]
     [hallway.api :as api]
-    [hallway.rss :as rss]
+    [hallway.feed :as feed]
     [hallway.static :as static]
     [hallway.util :as u]
     [lambdaisland.uri :as uri]
@@ -36,9 +36,8 @@
                        (uri/query-encode (str url " @FindkaEssays")))}
       "Twitter"]]
     [:div
-     [:a.link {:href (str "http://localhost:8080/rss?url="
-                       (uri/query-encode url))}
-      "Discussion RSS Feed"]]))
+     [:a.link {:href (str "/feed?url=" (uri/query-encode url))}
+      "Atom feed"]]))
 
 (defn discussion
   [{:keys [url title n-comments created points author]}]
@@ -81,7 +80,7 @@
              :target "_blank"}
     "Github"]])
 
-(defn discussions-body [url docs]
+(defn view-body [url docs]
   (rum/render-static-markup
     (static/base-page
       [:.p-3.mx-auto.max-w-screen-md
@@ -91,21 +90,21 @@
        [:hr.mt-8.mb-2.border-gray-400]
        footer])))
 
-(defn rss-discussions-body [url docs]
-  (str rss/xml-doc
+(defn feed-body [sys docs]
+  (str feed/xml-doc
        (rum/render-static-markup
-         (rss/feed url docs))))
+         (feed/feed sys docs))))
 
-(defn view-discussions [{:keys [params/url]}]
+(defn view [{:keys [params/url]}]
   {:status 200
    :headers/Content-Type "text/html"
-   :body (discussions-body url (api/search-all url))})
+   :body (view-body url (api/search-all url))})
 
-(defn rss-discussions [{:keys [params/url]}]
+(defn feed [{:keys [params/url] :as sys}]
   {:status 200
    :headers/Content-Type "application/atom+xml"
-   :body (rss-discussions-body url (api/search-all url))})
+   :body (feed-body sys (api/search-all url))})
 
 (def routes
-  [["/view" {:get #(view-discussions %)}]
-   ["/rss" {:get #(rss-discussions %)}]])
+  [["/view" {:get #(view %)}]
+   ["/feed" {:get #(feed %)}]])

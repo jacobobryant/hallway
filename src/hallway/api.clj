@@ -80,6 +80,7 @@
                   {:source :twitter
                    :url (str "https://twitter.com/" username "/status/" id)
                    :title (str "@" username ": " text)
+                   :author username
                    :n-comments replies
                    :created datetime
                    :points (+ replies retweets likes)})))))))
