@@ -14,8 +14,11 @@
 
 (defn search-hn [subject-url]
   (->> (http/get "http://hn.algolia.com/api/v1/search"
-         {:query-params {:query subject-url
-                         :restrictSearchableAttributes "url"}
+         {:query-params {:query (str "\"" subject-url "\"")
+                         :restrictSearchableAttributes "url"
+                         :attributesToRetrieve "created_at,num_comments,points,title,author"
+                         :attributesToHighlight ""
+                         :queryType "prefixNone"}
           :as :json})
     catchall-verbose
     :body
