@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 set -e
 
-for f in all-tasks/*; do
-  source $f
+for f in config/task.env all-tasks/*; do
+  if [ -f $f ]; then
+    source $f
+  fi
 done
 
 "$@"
