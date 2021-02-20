@@ -16,7 +16,7 @@
   (->> (http/get "http://hn.algolia.com/api/v1/search"
          {:query-params {:query (str "\"" subject-url "\"")
                          :restrictSearchableAttributes "url"
-                         :attributesToRetrieve "created_at,num_comments,points,title,author"
+                         :attributesToRetrieve "created_at,num_comments,points,title,author,url"
                          :attributesToHighlight ""
                          :queryType "prefixNone"}
           :as :json})
@@ -24,19 +24,21 @@
     :body
     :hits
     (keep (fn [{:keys [objectID
-                      title
-                      num_comments
-                      created_at
-                      points
-                      author]}]
-           (catchall-verbose
-             {:source :hn
-              :url (str "https://news.ycombinator.com/item?id=" objectID)
-              :title title
-              :n-comments num_comments
-              :created (u/parse-date created_at)
-              :points points
-              :author author})))))
+                       url
+                       title
+                       num_comments
+                       created_at
+                       points
+                       author] :as result}]
+            (when (= (str/lower-case subject-url) (str/lower-case url))
+              (catchall-verbose
+                {:source :hn
+                 :url (str "https://news.ycombinator.com/item?id=" objectID)
+                 :title title
+                 :n-comments num_comments
+                 :created (u/parse-date created_at)
+                 :points points
+                 :author author}))))))
 
 (defn search-reddit [subject-url]
   (->> (http/get "https://www.reddit.com/api/info.json"
