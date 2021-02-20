@@ -1,7 +1,8 @@
 (ns hallway.feed
   (:require
     [biff.util :as bu]
-    [hallway.util :as u]))
+    [hallway.util :as u]
+    [lambdaisland.uri :as uri]))
 
 (def xml-doc
   "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
@@ -19,7 +20,7 @@
 
 (defn feed [{:keys [params/url biff/base-url]} docs]
   (let [sorted-docs (sort-by :created #(compare %2 %1) docs)
-        self (str base-url "/feed?url=" url)]
+        self (str base-url "/feed?url=" (uri/query-encode url))]
     [:feed {:xmlns "http://www.w3.org/2005/Atom"}
      [:title (str "Discussions for " url)]
      [:link {:href self :rel "self"}]
