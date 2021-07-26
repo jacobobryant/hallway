@@ -1,2 +1,0 @@
-apt-get -y install python3-pip
-sudo -H -u biff pip3 install --user --upgrade git+https://github.com/jacobobryant/twint.git@origin/master#egg=twint

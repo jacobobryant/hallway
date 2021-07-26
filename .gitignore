@@ -1,10 +1,9 @@
+.nrepl-port
 /.cpcache/
 /.shadow-cljs/
 /config/
 /data/
-/infra/.terraform*
-/infra/terraform.tfstate*
 /node_modules/
-/www-dev/
+/storage/
+/target/
 /www/
-.tags

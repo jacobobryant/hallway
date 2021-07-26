@@ -1,0 +1,9 @@
+{:deps {:aliases [:dev]}
+ :nrepl false
+ :builds {:app {:target :browser
+                :output-dir "target/resources/public/cljs/app"
+                :asset-path "/cljs/app"
+                :compiler-options {:infer-externs :auto}
+                :modules {:main {:init-fn findka.hallway.client.app/init
+                                 :entries [findka.hallway.client.app]}}
+                :devtools {:after-load findka.hallway.client.app/mount}}}}
