@@ -7,8 +7,6 @@
             [clojure.test :as t]
             [hf.depstar.uberjar :as uber]
             [nrepl.cmdline :as nrepl-cmd]
-            [shadow.cljs.devtools.api :as shadow-api]
-            [shadow.cljs.devtools.server :as shadow-server]
             [findka.hallway :as core]
             [findka.hallway-test]
             [findka.hallway.dev.css :as css]
@@ -39,7 +37,6 @@
       (do
         (html)
         (css)
-        (shadow-api/release :app)
         (if (:success (uber/build-jar
                         {:aot true
                          :main-class 'findka.hallway
@@ -47,36 +44,15 @@
           (System/exit 0)
           (System/exit 2))))))
 
-(defn use-shadow-cljs [sys]
-  (shadow-server/start!)
-  (shadow-api/watch :app)
-  (update sys :biff/stop conj #(shadow-server/stop!)))
-
 (defn start []
   (bu/start-system
     (assoc core/config
            :biff/after-refresh `start
            :biff.hawk/callback `on-file-change
            :biff.hawk/paths ["src" "dev"])
-    (into [dev/use-hawk use-shadow-cljs] core/components)))
+    (into [dev/use-hawk] core/components)))
 
 (defn -main [& args]
   (on-file-change)
   (start)
   (apply nrepl-cmd/-main args))
-
-(comment
-  ; Start the app (not needed by default since this is called by -main, but
-  ; useful if you prefer to start clj + nrepl from your editor):
-  (start)
-
-  ; Inspect app state:
-  (->> @bu/system keys sort (run! prn))
-
-  ; Stop the app, reload files, restart the app (you may want to bind a
-  ; keyboard shortcut to this):
-  (bu/refresh)
-  ; If you have problems with your editor capturing stdout/stderr, you can use
-  ; this instead (I've needed this with Conjure):
-  (bu/fix-print (bu/refresh))
-  )

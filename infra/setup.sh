@@ -14,7 +14,7 @@ done
 # Dependencies
 apt-get update
 apt-get upgrade
-apt-get -y install nginx default-jre rlwrap nodejs npm
+apt-get -y install nginx default-jre rlwrap
 snap install core
 snap refresh core
 snap install --classic certbot

@@ -1,23 +1,14 @@
 #!/usr/bin/env bash
 set -e
 
-# See https://biff.findka.com/#babashka-tasks
-# I recommend adding alias t=./task to your .bashrc.
-
 if [ -f config/task.env ]; then
   source config/task.env
 fi
 
 init () {
   mkdir -p target/resources
-  if ! [ -d node_modules ]; then
-    if [ -f package.json ]; then
-      npm install
-    else
-      npm init -y
-      npm install --save react react-dom
-      npm install --save-dev shadow-cljs
-    fi
+  if ! [ -d config ]; then
+    cp -r config-TEMPLATE config
   fi
 }
 
@@ -26,8 +17,7 @@ dev () {
   source config/dev.env
   echo 7888 > .nrepl-port
   clj "$@" -A:dev -M -m findka.hallway.dev --port 7888 \
-    --middleware '[shadow.cljs.devtools.server.nrepl/middleware
-                   cider.nrepl/cider-middleware]'
+    --middleware '[cider.nrepl/cider-middleware]'
 }
 
 build () {

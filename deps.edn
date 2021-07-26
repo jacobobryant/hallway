@@ -1,12 +1,19 @@
 {:paths ["src" "resources" "target/resources"]
- :deps {biff/main {:git/url "https://github.com/jacobobryant/biff"
-                   :deps/root "libs/main"
+ :deps {biff/rum  {:git/url "https://github.com/jacobobryant/biff"
+                   :deps/root "libs/rum"
+                   :sha "81f50a64d11e428848f4d41d98248a18bac8b1da"}
+        biff/util {:git/url "https://github.com/jacobobryant/biff"
+                   :deps/root "libs/util"
+                   :sha "81f50a64d11e428848f4d41d98248a18bac8b1da"}
+        biff/middlware {:git/url "https://github.com/jacobobryant/biff"
+                        :deps/root "libs/middleware"
+                        :sha "81f50a64d11e428848f4d41d98248a18bac8b1da"}
+        biff/misc {:git/url "https://github.com/jacobobryant/biff"
+                   :deps/root "libs/misc"
                    :sha "81f50a64d11e428848f4d41d98248a18bac8b1da"}}
  :aliases {:dev {:extra-paths ["dev"]
                  :extra-deps {biff/dev {:git/url "https://github.com/jacobobryant/biff"
                                         :deps/root "libs/dev"
                                         :sha "81f50a64d11e428848f4d41d98248a18bac8b1da"}
                               cider/cider-nrepl {:mvn/version "0.26.0"}
-                              thheller/shadow-cljs {:mvn/version "2.12.7"}
-                              metosin/reitit-frontend {:mvn/version "0.5.5"}
                               com.github.seancorfield/depstar {:mvn/version "2.0.211"}}}}}
