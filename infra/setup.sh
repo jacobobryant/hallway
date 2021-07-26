@@ -99,3 +99,7 @@ EOD
 systemctl restart systemd-journald
 echo app ALL= NOPASSWD: /bin/systemctl restart app > /etc/sudoers.d/restart-app
 chmod 440 /etc/sudoers.d/restart-app
+
+# App dependencies
+apt-get -y install python3-pip
+sudo -H -u app pip3 install --user --upgrade git+https://github.com/jacobobryant/twint.git@origin/master#egg=twint

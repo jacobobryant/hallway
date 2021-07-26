@@ -3,3 +3,7 @@
 p {
   margin-bottom: 0.75rem;
 }
+
+hr {
+  border-top-width: 1px;
+}
