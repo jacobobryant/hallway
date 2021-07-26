@@ -23,7 +23,7 @@ it with Clojure and [Biff](https://biff.findka.com).
 
 ## Contributing
 
-Please do. Run `./task dev` to get started. The only dependency is Clojure and
+Please do. Run `./task dev` to get started. The only dependencies are Clojure and
 a fork of Twint:
 
     # Install Twint
