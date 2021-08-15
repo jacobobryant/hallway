@@ -65,7 +65,7 @@
                   :author author})))))
 
 (defn search-twitter [subject-url]
-  (->> (sh/sh ".local/bin/twint" "-s" subject-url "--format"
+  (->> (sh/sh "/usr/local/bin/twint" "-s" subject-url "--format"
               ">>> {username} {id} {date}T{time} {replies} {retweets} {likes} {tweet}"
               "-pt" "--limit" "20" :dir (System/getProperty "user.home"))
        :out
