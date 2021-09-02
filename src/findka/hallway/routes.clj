@@ -100,9 +100,12 @@
          (feed/feed sys docs))))
 
 (defn view [{:keys [params/url]}]
-  {:status 200
-   :headers/Content-Type "text/html"
-   :body (view-body url (api/search-all url))})
+  (if (empty? url)
+    {:status 302
+     :headers/Location "/"}
+    {:status 200
+     :headers/Content-Type "text/html"
+     :body (view-body url (api/search-all url))}))
 
 (defn feed [{:keys [params/url] :as sys}]
   {:status 200
