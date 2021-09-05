@@ -24,7 +24,7 @@ it with Clojure and [Biff](https://biff.findka.com).
 ## Contributing
 
 Please do. Run `./task dev` to get started. The only dependencies are Clojure and
-a fork of Twint:
+a fork of Twint (see [#12](https://github.com/jacobobryant/hallway/issues/12)):
 
     # Install Twint
     pip3 install --user --upgrade git+https://github.com/jacobobryant/twint.git@origin/master#egg=twint
